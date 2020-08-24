@@ -1,0 +1,98 @@
+// Vars
+$light-color: #fff;
+$dark-color: #222;
+$body-bg: #1e1e1e;
+$hover-bg-effect: #ff0073;
+
+// Mixins
+@mixin set-flex($j, $a, $d, $w) {
+  display: flex;
+  justify-content: $j;
+  align-items: $a;
+  flex-direction: $d;
+  flex-wrap: $w;
+}
+
+// Global Styles
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  color: $light-color;
+  background-color: $body-bg;
+  @include set-flex(space-around, center, column, no-wrap);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h2 {
+  font-size: 2.3rem;
+  font-weight: 600;
+}
+
+// The Main Container
+.main-container {
+  height: 100%;
+  @include set-flex(space-around, center, column, no-wrap);
+}
+
+// Card Style
+.card-style {
+  padding: 1rem 2rem;
+  color: $light-color;
+  background-color: transparent;
+  position: relative;
+  width: 300px;
+  height: 280px;
+  cursor: pointer;
+  // The Both Faces Front And Back
+  .face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    @include set-flex(center, center, column, no-wrap);
+    backface-visibility: hidden;
+    transition: all 0.4s ease-in-out;
+    // Face One Which Is The Front
+    &.face1 {
+      background-color: $dark-color;
+      transform-origin: bottom;
+      .the-img {
+        max-width: 100px;
+        max-height: 100px;
+        filter: invert(1);
+      }
+    }
+    // Face Two Which Is The Back
+    &.face2 {
+      transform: translateY(var(--y2, 100%)) rotateX(var(--r2, 180deg));
+      background-color: $light-color;
+      color: $dark-color;
+      transform-origin: top;
+      p {
+        font-size: 1rem;
+        padding: 0 2px;
+        line-height: 1.8;
+      }
+    }
+  }
+  // What Gonna Happen If The Card Has Been Hovered
+  &:hover {
+    .face {
+      &.face1 {
+        background-color: $hover-bg-effect;
+        transform: translateY(var(--y1, -100%)) rotateX(var(--r1, 90deg));
+      }
+      &.face2 {
+        --y2: 0;
+        --r2: 0;
+      }
+    }
+  }
+}
